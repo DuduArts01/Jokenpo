@@ -1,23 +1,27 @@
 import pygame
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, sprite_sheet, x, y, full_width, height, scale_factor=1.0):
+    def __init__(self, sprite_sheet, x, y, scale_factor=1.0):
         super().__init__()
 
-        half_width = full_width // 2
+        # Pega tamanho real da imagem fornecida
+        sheet_width, sheet_height = sprite_sheet.get_size()
+        half_width = sheet_width // 2
+
+        # Salva tamanho original
         self.original_width = half_width
-        self.original_height = height
+        self.original_height = sheet_height
 
-        # Calcular novo tamanho proporcional
+        # Novo tamanho com escala
         new_width = int(half_width * scale_factor)
-        new_height = int(height * scale_factor)
+        new_height = int(sheet_height * scale_factor)
 
-        # imagem normal
-        normal_img = sprite_sheet.subsurface((0, 0, half_width, height))
+        # Recorta imagem normal
+        normal_img = sprite_sheet.subsurface((0, 0, half_width, sheet_height))
         normal_img = pygame.transform.scale(normal_img, (new_width, new_height))
 
-        # imagem clicada
-        clicked_img = sprite_sheet.subsurface((half_width, 0, half_width, height))
+        # Recorta imagem clicada
+        clicked_img = sprite_sheet.subsurface((half_width, 0, half_width, sheet_height))
         clicked_img = pygame.transform.scale(clicked_img, (new_width, new_height))
 
         self.images = [normal_img, clicked_img]

@@ -3,11 +3,12 @@ from mainImages import MainControlImages
 from button import Button
 from title import Title
 
-class MainMenuProgram:
+class Select_Mode:
     def __init__(self, screen):
         self.screen = screen
         self.fullscreen = False
-        self.image_data = MainControlImages.start_image_data
+        self.image_1vC_data = MainControlImages.sprite_1vComputer_image_data
+        self.image_1v1_data = MainControlImages.sprite_1v1_image_data
         self.resizedElements()
 
     def resizedElements(self):
@@ -18,15 +19,22 @@ class MainMenuProgram:
         scale_y = height / base_height
         scale_factor = min(scale_x, scale_y) * 8
 
-        self.start_button = Button(
-            self.image_data["image"],
-            x=width / 2,
+        self.onevsComputer = Button(
+            self.image_1vC_data["image"],
+            x=width / 3,
+            y=height - (height / 5),
+            scale_factor=scale_factor
+        )
+
+        self.onevsone = Button(
+            self.image_1v1_data["image"],
+            x=width / 1.5,
             y=height - (height / 5),
             scale_factor=scale_factor
         )
 
 
-        self.title = Title("Jokenpô", "Arial", 60, (0,0,0)) #Title Game
+        self.title = Title("Selecione o modo de jogo", "Arial", 60, (0,0,0)) #Title Game
 
     def toggle_fullscreen(self):
         self.fullscreen = not self.fullscreen
@@ -42,7 +50,7 @@ class MainMenuProgram:
 
         while running:
             self.screen.fill((255, 255, 255))
-            pygame.display.set_caption("Jokenpô (MAIN MENU)")
+            pygame.display.set_caption("Jokenpô (Selecionar Modo de Jogo)")
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -59,19 +67,27 @@ class MainMenuProgram:
                         self.toggle_fullscreen()
 
             # Verifica se o botão foi clicado
-            if self.start_button.action:
-                self.start_button.draw(self.screen)         # Mostra imagem clicada
+            if self.onevsComputer.action:
+                self.onevsComputer.draw(self.screen)         # Mostra imagem clicada
                 pygame.display.update()                    # Atualiza tela
                 pygame.time.delay(150)                     # Delay de 150ms
                 running = False
-                next_screen = "gameselect"                      # Troca para tela da loja
+                next_screen = "playerVScomputer"                      # Troca para tela 1vComputer
 
-            # Draw Title (show on screen)
+            if self.onevsComputer.action:
+                self.onevsComputer.draw(self.screen)         # Mostra imagem clicada
+                pygame.display.update()                    # Atualiza tela
+                pygame.time.delay(150)                     # Delay de 150ms
+                running = False
+                next_screen = "gameselect"   # Troca para tela 1v1 ainda a mudar
+
+            # Draw title (show on screen)
             self.title.draw(self.screen, y=100)  # Draw center title
 
-            # Draw button (show on screen)
-            self.start_button.draw(self.screen) # Button Start
+            # Draw buttons (show on screen)
+            self.onevsComputer.draw(self.screen) # Button one vs computer
+            self.onevsone.draw(self.screen) # Button one vs one
             
-            pygame.display.flip()
+            pygame.display.update()
 
         return next_screen

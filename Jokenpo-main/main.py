@@ -2,7 +2,8 @@ import pygame
 import sys
 from menu_main import MainMenuProgram
 from mainImages import MainControlImages
-from store import Store_Game
+from gameselect import Select_Mode
+from one_vs_computer import OneVsComputer
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720), pygame.RESIZABLE)
@@ -12,13 +13,17 @@ MainControlImages.load()
 current_screen = "menu"
 
 while current_screen:
-    if current_screen == "menu":
+    if current_screen == "menu": # Screen Menu
         main_menu = MainMenuProgram(screen)
         current_screen = main_menu.run()
 
-    elif current_screen == "store":
-        store = Store_Game(screen)
-        current_screen = store.run()
+    elif current_screen == "gameselect": # Screen select mode game
+        selectmodegame = Select_Mode(screen)
+        current_screen = selectmodegame.run()
+    
+    elif current_screen == "playerVScomputer": # Screen Player vs Computer
+        selectmodegame = OneVsComputer(screen)
+        current_screen = selectmodegame.run()
 
 pygame.quit()
 sys.exit()
