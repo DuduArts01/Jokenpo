@@ -1,7 +1,7 @@
 import pygame
 from mainImages import MainControlImages
 from button import Button
-from title import Title
+from font_edit import Font
 
 class MainMenuProgram:
     def __init__(self, screen):
@@ -26,7 +26,7 @@ class MainMenuProgram:
         )
 
 
-        self.title = Title("Jokenpô", "Arial", 60, (0,0,0)) #Title Game
+        self.title = Font("Jokenpô", "Arial", 60, (0,0,0)) #Title Game
 
     def toggle_fullscreen(self):
         self.fullscreen = not self.fullscreen

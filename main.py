@@ -22,8 +22,8 @@ while current_screen:
         current_screen = selectmodegame.run()
     
     elif current_screen == "playerVScomputer": # Screen Player vs Computer
-        selectmodegame = OneVsComputer(screen)
-        current_screen = selectmodegame.run()
+        oneVsComputer = OneVsComputer(screen)
+        current_screen = oneVsComputer.run()
 
 pygame.quit()
 sys.exit()

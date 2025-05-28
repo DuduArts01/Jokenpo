@@ -1,6 +1,6 @@
 import pygame
 
-class Title:
+class Font:
     def __init__(self, text, font_name, font_size, color=(255, 255, 255)):
         self.text = text
         self.font_name = font_name

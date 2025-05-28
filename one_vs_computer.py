@@ -1,7 +1,9 @@
 import pygame
 from mainImages import MainControlImages
 from button import Button
-from title import Title
+from font_edit import Font
+from image_edit import Image_edit
+from animation_players import HandAnimator
 
 class OneVsComputer:
     def __init__(self, screen):
@@ -10,6 +12,11 @@ class OneVsComputer:
         self.image_hand_rock_data = MainControlImages.sprite_player_rock_image_data
         self.image_paper_data = MainControlImages.sprite_player_paper_image_data
         self.image_scissor_data = MainControlImages.sprite_player_scissor_image_data
+        self.sprite_player_hand_image_data = MainControlImages.sprite_player_hand_image_data
+        
+        # obtém apenas a Surface da imagem carregada
+        self.image_Score_Board = MainControlImages.scoreboard_image_data["image"]
+
         self.resizedElements()
 
     def resizedElements(self):
@@ -41,8 +48,20 @@ class OneVsComputer:
             scale_factor=scale_factor * 8.5
         ) # Button hand scissor
 
+        # redimensiona
+        self.score_board_image, self.score_board_size = Image_edit.load_and_scale_image_dynamic(
+            self.image_Score_Board,
+            screen_size=(width, height),
+            base_size=(1280, 720),  # Pode ajustar se quiser outro base
+            scale=3
+        )
 
-        self.title = Title("Player Vs Computer", "Arial", 60, (0,0,0)) #Title Game
+        self.hand = HandAnimator(MainControlImages.sprite_player_hand_path, screen_size=(1280, 720), scale=2)
+
+        # Centraliza
+        self.score_board_pos = Image_edit.get_position(self.screen.get_size(), self.score_board_size, x = 0, y = 0)
+
+        self.title = Font("Player Vs Computer", "Arial", 60, (0,0,0)) #Title Game
 
     def toggle_fullscreen(self):
         self.fullscreen = not self.fullscreen
@@ -79,8 +98,22 @@ class OneVsComputer:
                 self.hand_rock.draw(self.screen)         # Mostra imagem clicada
                 pygame.display.update()                    # Atualiza tela
                 pygame.time.delay(150)                     # Delay de 150ms
-                running = False
-                next_screen = "gameselect"                      # Troca para tela 1vComputer
+                self.hand.play("rock")
+                                  
+            
+            if self.hand_paper.action:
+                self.hand_paper.draw(self.screen)         # Mostra imagem clicada
+                pygame.display.update()                    # Atualiza tela
+                pygame.time.delay(150)                     # Delay de 150ms
+                self.hand.play("paper")
+                                  
+            
+            if self.hand_scissor.action:
+                self.hand_scissor.draw(self.screen)         # Mostra imagem clicada
+                pygame.display.update()                    # Atualiza tela
+                pygame.time.delay(150)                     # Delay de 150ms
+                self.hand.play("scissor")
+                                    
 
             # Draw Title (show on screen)
             self.title.draw(self.screen, y=100)  # Draw center title
@@ -89,6 +122,12 @@ class OneVsComputer:
             self.hand_rock.draw(self.screen) # Button one vs computer
             self.hand_paper.draw(self.screen) # Button one vs one
             self.hand_scissor.draw(self.screen) # Button one vs one
+
+            # Scoreboard resized
+            self.screen.blit(self.score_board_image, self.score_board_pos)
+
+            self.hand.update()
+            self.hand.draw(self.screen)
             
             pygame.display.update()
 

@@ -1,7 +1,7 @@
 import pygame
 from mainImages import MainControlImages
 from button import Button
-from title import Title
+from font_edit import Font
 
 class Select_Mode:
     def __init__(self, screen):
@@ -34,7 +34,7 @@ class Select_Mode:
         )
 
 
-        self.title = Title("Selecione o modo de jogo", "Arial", 60, (0,0,0)) #Title Game
+        self.title = Font("Selecione o modo de jogo", "Arial", 60, (0,0,0)) #Title Game
 
     def toggle_fullscreen(self):
         self.fullscreen = not self.fullscreen
